@@ -90,6 +90,7 @@ class BaseModel extends Database
         $sql = "insert into ${table}(${columns}) values(${values})";
 
         $this->exeQuery($sql);
+        return true;
     }
 
     /**
@@ -111,6 +112,7 @@ class BaseModel extends Database
         $sql = "update ${table} set ${dataSetString} where id = ${id}";
 
         $this->exeQuery($sql);
+        return true;
     }
 
     /**
@@ -123,6 +125,6 @@ class BaseModel extends Database
 
         $query = $this->exeQuery($sql);
 
-        return $query;
+        return true;
     }
 }

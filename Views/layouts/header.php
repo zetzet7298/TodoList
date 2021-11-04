@@ -1,4 +1,4 @@
-<header>
+<header style="margin-bottom: 40px">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container">

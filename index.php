@@ -1,6 +1,6 @@
 <?php
-ini_set('display_errors',1);
 
+require './config/app.php';
 require './Controllers/BaseController.php';
 require './Core/Database.php';
 require './Models/BaseModel.php';
