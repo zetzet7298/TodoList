@@ -16,10 +16,7 @@ class TodoListController extends BaseController
 
     public function index(){
         $data = $this->model->get(['*'], [['id' => 'desc'], ['created_at' => 'desc']]);
-        echo "<pre>";
-        print_r($data);
-        echo "</pre>";
-        return $this->views('todolists.index', ['title' => 'test page title']);
+        return $this->views('works.index', ['title' => 'Calendar']);
     }
 
     public function show($id){

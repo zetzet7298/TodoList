@@ -7,16 +7,16 @@ class BaseController
 
     const MODEL_FOLDER_NAME = 'Models';
 
-    /*
-     * pathName = folderName.fileName
+    /**
+     * $param viewPath = folderName.fileName
      */
     protected function views($viewPath, array $data = []){
         foreach ($data as $k => $v){
             $$k = $v;
         }
-
         $viewPath = self::VIEW_FOLDER_NAME . '/' . str_replace('.', '/', $viewPath) . '.php';
-        require $viewPath;
+        include "./Views/layouts/layout.php";
+//        require $viewPath;
     }
 
     /*
