@@ -2,7 +2,7 @@
 
 namespace TodoList\Models;
 
-class TodoListModel extends BaseModel
+class WorkModel extends BaseModel
 {
     protected $table = 'works';
 
