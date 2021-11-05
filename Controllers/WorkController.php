@@ -5,11 +5,13 @@ namespace TodoList\Controllers;
 //use TodoList\Models\TodoListModel;
 
 use TodoList\common\constants\WorkConstant;
+use TodoList\Models\Validation;
 use TodoList\Models\WorkModel;
 
 class WorkController extends BaseController
 {
     private $model;
+    private $validator;
 
     public function __construct()
     {
@@ -18,6 +20,10 @@ class WorkController extends BaseController
         $this->loadModel('WorkModel');
 
         $this->model = new WorkModel();
+
+        $this->loadModel('Validation');
+
+        $this->validator = new Validation();
     }
 
     /**
@@ -89,34 +95,34 @@ class WorkController extends BaseController
         }
 
 
-        if (empty($_POST["workName"])) {
+        if ($this->validator->checkNull($_POST["workName"]) == false) {
             $_SESSION['workNameErr'] = "Work name is required";
         } else {
             $workName = $_POST["workName"];
-            if (strlen($workName) > 128) {
+            if ($this->validator->checkMaxLength($workName, 128) == false) {
                 $_SESSION['workNameErr'] = "Work name must be less than 128 characters";
             } else {
                 unset($_SESSION['workNameErr']);
             }
         }
 
-        if (empty($_POST["startingDate"])) {
+        if ($this->validator->checkNull($_POST["startingDate"]) == false) {
             $_SESSION['startingDateErr'] = "Starting date is required";
         } else {
             $startingDate = strtotime($_POST["startingDate"]);
             unset($_SESSION['startingDateErr']);
         }
 
-        if (empty($_POST["endingDate"])) {
+        if ($this->validator->checkNull($_POST["endingDate"]) == false) {
             $_SESSION['endingDateErr'] = "Ending date is required";
         } else {
             $endingDate = strtotime($_POST["endingDate"]);
             unset($_SESSION['endingDateErr']);
         }
 
-        if (!empty($startingDate) && !empty($endingDate) && ($endingDate <= $startingDate)) {
+        if (!empty($startingDate) && !empty($endingDate) && $this->validator->checkDateFromAndDateTo($startingDate, $endingDate) == false) {
             $_SESSION['endingDateErr'] = "Ending date cannot be less than starting date";
-        } elseif (!empty($startingDate) && !empty($endingDate) && ($endingDate > $startingDate)) {
+        } elseif (!empty($startingDate) && !empty($endingDate) && $this->validator->checkDateFromAndDateTo($startingDate, $endingDate) == true) {
             unset($_SESSION['endingDateErr']);
         }
 
@@ -141,10 +147,9 @@ class WorkController extends BaseController
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($this->validate() == true) {
                     $data = $this->validate();
-                    $result = $this->model->store($data);
-                    header('Location: ?controller=work&action=index');
-                    return "Stored";
+                    $result = $this->model->store($data);;
                 }
+                header('Location: ?controller=work&action=index');
             }
         }catch (\Exception $exception){
             error_reporting($exception);
@@ -162,9 +167,8 @@ class WorkController extends BaseController
                 if ($this->validate() == true) {
                     $data = $this->validate();
                     $result = $this->model->update($id, $data);
-                    header('Location: ?controller=work&action=index');
-                    return "Updated";
                 }
+                header('Location: ?controller=work&action=index');
             }
             header('Location: ?controller=work&action=index');
         }catch (\Exception $exception){
