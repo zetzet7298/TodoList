@@ -5,7 +5,7 @@ require './Controllers/BaseController.php';
 require './Core/Database.php';
 require './Models/BaseModel.php';
 
-$controllerName = $_REQUEST['controller'] ?? '';
+$controllerName = $_REQUEST['controller'] ?? 'work';
 $actionName = $_REQUEST['action'] ?? 'index';
 $id = $_REQUEST['id'] ?? -1;
 

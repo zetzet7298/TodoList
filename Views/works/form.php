@@ -1,7 +1,7 @@
 <form id="work-form" method="post" action="?controller=work&action=store">
     <div class="row">
         <div class="col-6">
-            <label for="work">Work: </label>
+            <label for="work">Work <N></N>ame: </label>
             <input type="text" class="form-control" name="workName"><br>
             <?php if(!empty($_SESSION['workNameErr'])): ?>
                 <span class="err"><?= $_SESSION['workNameErr']; ?></span>
