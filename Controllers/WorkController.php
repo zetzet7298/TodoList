@@ -24,8 +24,12 @@ class WorkController extends BaseController
      * Get list data works. Response as json
      */
     public function getDataAsJson(){
-        $data = $this->model->get(['*'], [['id' => 'desc'], ['created_at' => 'desc']]);
-        echo json_encode($data);
+        try {
+            $data = $this->model->get(['*'], [['id' => 'desc'], ['created_at' => 'desc']]);
+            echo json_encode($data ?? []);
+        }catch (\Exception $exception){
+            error_reporting($exception);
+        }
     }
 
     /**
@@ -33,12 +37,16 @@ class WorkController extends BaseController
      */
     public function index()
     {
-        $data = $this->model->get(['*'], [['id' => 'desc'], ['created_at' => 'desc']]);
+        try {
+            $data = $this->model->get(['*'], [['id' => 'desc'], ['created_at' => 'desc']]);
 
-        return $this->views('works.index', [
-            'title' => 'Work',
-            'data' => $data
-        ]);
+            return $this->views('works.index', [
+                'title' => 'Work',
+                'data' => $data ?? []
+            ]);
+        }catch (\Exception $exception){
+            error_reporting($exception);
+        }
     }
 
     /**
@@ -47,8 +55,12 @@ class WorkController extends BaseController
      */
     public function getWorkByIdAsJson($id)
     {
-        $data = $this->model->findById($id);
-        echo json_encode($data);
+        try {
+            $data = $this->model->findById($id) ?? [];
+            echo json_encode($data);
+        }catch (\Exception $exception){
+            error_reporting($exception);
+        }
     }
 
     /**
@@ -57,8 +69,12 @@ class WorkController extends BaseController
      */
     public function show($id)
     {
-        $data = $this->model->findById($id);
-        return $data;
+        try {
+            $data = $this->model->findById($id) ?? [];
+            return $data;
+        }catch (\Exception $exception){
+            error_reporting($exception);
+        }
     }
 
     /**
@@ -117,13 +133,20 @@ class WorkController extends BaseController
      */
     public function store()
     {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if ($this->validate() == true) {
-                $data = $this->validate();
-                $result = $this->model->store($data);
+        try {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                if ($this->validate() == true) {
+                    $data = $this->validate();
+                    $result = $this->model->store($data);
+                    if($result){
+                        return "Stored";
+                    }
+                }
             }
+            header('Location: ?controller=work&action=index');
+        }catch (\Exception $exception){
+            error_reporting($exception);
         }
-        header('Location: ?controller=work&action=index');
     }
 
     /**
@@ -132,13 +155,20 @@ class WorkController extends BaseController
      */
     public function update($id)
     {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if ($this->validate() == true) {
-                $data = $this->validate();
-                $result = $this->model->update($id, $data);
+        try {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                if ($this->validate() == true) {
+                    $data = $this->validate();
+                    $result = $this->model->update($id, $data);
+                    if($result){
+                        return "Updated";
+                    }
+                }
             }
+            header('Location: ?controller=work&action=index');
+        }catch (\Exception $exception){
+            error_reporting($exception);
         }
-        header('Location: ?controller=work&action=index');
     }
 
     /**
@@ -147,13 +177,19 @@ class WorkController extends BaseController
      */
     public function updateStatus($id)
     {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $result = $this->model->update($id, [
-                'work_status' => $_POST['work_status']
-            ]);
-            echo json_encode('update success');
-        }else{
-            echo json_encode('update failed');
+        try {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $result = $this->model->update($id, [
+                    'work_status' => $_POST['work_status']
+                ]);
+                if ($result) {
+                    echo json_encode('update success');
+                } else {
+                    echo json_encode('update failed');
+                }
+            }
+        }catch (\Exception $exception){
+            error_reporting($exception);
         }
     }
 
@@ -163,6 +199,15 @@ class WorkController extends BaseController
      */
     public function destroy($id)
     {
-        $result = $this->model->destroy($id);
+        try {
+            $result = $this->model->destroy($id);
+            if($result){
+                echo json_encode('update success');
+            }else{
+                echo json_encode('update failed');
+            }
+        }catch (\Exception $exception){
+            error_reporting($exception);
+        }
     }
 }
