@@ -8,8 +8,6 @@ use TodoList\Models\WorkModel;
 class WorkTest extends TestCase
 
 {
-    private $model;
-
     public function testInit()
     {
         $workModel = new WorkModel();
