@@ -22,6 +22,8 @@ class ComposerStaticInit08fa79c63c910fd41ac59ea2041f1ab7
         ),
         'T' => 
         array (
+            'TodoList\\Models\\' => 16,
+            'TodoList\\Core\\' => 14,
             'Tests\\' => 6,
         ),
         'S' => 
@@ -37,10 +39,6 @@ class ComposerStaticInit08fa79c63c910fd41ac59ea2041f1ab7
             'Doctrine\\Instantiator\\' => 22,
             'DeepCopy\\' => 9,
         ),
-        'A' => 
-        array (
-            'App\\' => 4,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -53,6 +51,14 @@ class ComposerStaticInit08fa79c63c910fd41ac59ea2041f1ab7
         'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
+        ),
+        'TodoList\\Models\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Models',
+        ),
+        'TodoList\\Core\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Core',
         ),
         'Tests\\' => 
         array (
@@ -73,10 +79,6 @@ class ComposerStaticInit08fa79c63c910fd41ac59ea2041f1ab7
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
-        ),
-        'App\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/Models',
         ),
     );
 
