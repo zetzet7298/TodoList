@@ -83,7 +83,11 @@ class WorkController extends BaseController
      */
     private function validate()
     {
-        session_start();
+        if(!isset($_SESSION))
+        {
+            session_start();
+        }
+
 
         if (empty($_POST["workName"])) {
             $_SESSION['workNameErr'] = "Work name is required";
@@ -138,12 +142,10 @@ class WorkController extends BaseController
                 if ($this->validate() == true) {
                     $data = $this->validate();
                     $result = $this->model->store($data);
-                    if($result){
-                        return "Stored";
-                    }
+                    header('Location: ?controller=work&action=index');
+                    return "Stored";
                 }
             }
-            header('Location: ?controller=work&action=index');
         }catch (\Exception $exception){
             error_reporting($exception);
         }
@@ -160,9 +162,8 @@ class WorkController extends BaseController
                 if ($this->validate() == true) {
                     $data = $this->validate();
                     $result = $this->model->update($id, $data);
-                    if($result){
-                        return "Updated";
-                    }
+                    header('Location: ?controller=work&action=index');
+                    return "Updated";
                 }
             }
             header('Location: ?controller=work&action=index');
